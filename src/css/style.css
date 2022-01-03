@@ -1,0 +1,130 @@
+.alert {
+  color: red;
+  background-color: yellow;
+  width: 100%;
+  text-align: center;
+  font-size: 26px;
+  padding: 20px;
+  margin-bottom: 40px;
+  line-height: 40px;
+  font-weight: 800;
+}
+.container {
+  width: 90%;
+  margin-left: 5%;
+}
+.account-number {
+  height: 42px;
+  width: 100%;
+  line-height: 42px;
+  text-align: center;
+  font-size: 18px;
+  background-color: rgb(236, 236, 236);
+  border: 0px;
+}
+.button {
+  margin-top: 20px;
+  height: 42px;
+  width: 100%;
+  background-color: rgb(0, 156, 91);
+  text-align: center;
+  line-height: 42px;
+  font-size: 18px;
+  cursor: pointer;
+  border: 0;
+  color: white;
+}
+.result {
+  width: 100%;
+  height: 400px;
+  margin-top: 8px;
+  background-color: #282c34;
+  border: 0px #282c34;
+  color:rgb(236, 236, 236);
+  padding: 10px;
+  font-size: 14px;
+}
+.validator_details {
+  width: 97%;
+  margin-top:10px;
+  color: rgb(236, 236, 236);
+  padding: 10px;
+  font-size: 14px;
+}
+.bottom {
+  margin:20px;
+  text-align: center;
+}
+a {
+  color:rgb(168, 168, 168);
+}
+.description {
+  margin-top: 20px;
+  color:yellow;
+}
+.select {
+  margin-bottom: 20px;
+}
+.gap {
+  margin-top: 8px;
+  font-size: 18px;
+  color:rgb(128, 128, 128);
+}
+.item{
+  line-height: 36px;
+}
+.item_left {
+  float: left;
+}
+.item_right {
+  float: right;
+}
+.clear {
+  clear: both;
+}
+table {
+  color: white;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 14px;
+}
+.chart_theme {
+  margin-top: 20px;
+  background-color: rgb(221, 221, 221);
+  width: 380px;
+}
+.menu-bar {
+  margin: 160px auto;
+  text-align: center;
+}
+.menu-item-title {
+  color: rgb(228, 228, 228);
+  font-size: 36px;
+  margin-bottom: 80px;
+}
+.menu-item {
+  color: rgb(156, 156, 156);
+  font-size: 32px;
+  margin-bottom: 10px;
+  /* cursor: pointer; */
+}
+.footer {
+  width: 100%;
+  margin-top: 100px;
+  text-align: center;
+  font-size: 18px;
+  color:rgb(131, 131, 131);
+  cursor: pointer;
+  margin-bottom: 30px;
+}
+a {
+  text-decoration: none;
+}
+
+.router-link-active {
+  text-decoration: none;
+}
+
+.grid {
+  background-color: rgb(34, 34, 34);
+}
