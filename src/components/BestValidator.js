@@ -1,32 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { definitions }  from '../types/xxnetwork';
-import { symbol as Symbol, wss } from '../config';
+import { symbol as Symbol } from '../config';
 import '../css/style.css';
 
-function BestValidator() {
-	const [loading, setLoading] = useState(true);
-	const [validator, setValidator] = useState('5DSK87eLHYWKKb7ZP4iDYvdBSTXsDbzAqmMxJn1ndvEy4Lr8');
-	const [nominator, setNominator] = useState('5DSK87eLHYWKKb7ZP4iDYvdBSTXsDbzAqmMxJn1ndvEy4Lr8');
+function BestValidator(props) {
+	const api = props.api;
+	const [loading, setLoading] = useState(false);
+	const [validator, setValidator] = useState(process.env.REACT_APP_DEFAULT_ACCOUNT);
+	const [nominator, setNominator] = useState(process.env.REACT_APP_DEFAULT_ACCOUNT);
 	const [era, setEra] = useState(0);
-	const [api, setApi] = useState(null);
 	const [validatorData, setValidatorData] = useState({});
 
 	const symbol = " " + Symbol;
-	useEffect(() => {
-    async function connet() {
-      const provider = new WsProvider(wss);
-      const api = await ApiPromise.create({
-        provider: provider,
-        types: definitions.types
-      });
-      setApi(api);
-			const currentEra = await api.query.staking.currentEra();
-			setEra(parseInt(currentEra.toString()) - 2);
-			setLoading(false)
-    }
-    connet();
-  }, [])
+	useEffect(async() => {
+		try {
+			const _currentEra = await api.query.staking.currentEra();
+			const currentEra = parseInt(_currentEra.toString()) - 2;
+			setEra(currentEra);
+		} catch(err){}
+	}, [])
 
 	const load = async () => {
 		if(loading) return;

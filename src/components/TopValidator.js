@@ -1,40 +1,27 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { definitions }  from '../types/xxnetwork';
-import { wss } from '../config';
-
 import '../css/style.css';
 
-function TopValidator() {
+function TopValidator(props) {
+	const api = props.api;
 	const [loading, setLoading] = useState(true);
-	const [validator, setValidator] = useState('5DSK87eLHYWKKb7ZP4iDYvdBSTXsDbzAqmMxJn1ndvEy4Lr8');
+	const [validator, setValidator] = useState(process.env.REACT_APP_DEFAULT_ACCOUNT);
 	const [stakeAmount, setStakeAmount] = useState(10000);
 	const [era, setEra] = useState(0);
-	const [api, setApi] = useState(null);
+	// const [api, setApi] = useState(null);
 	const [table1, setTable1] = useState([]);
 	const [table2, setTable2] = useState([]);
 
-	useEffect(() => {
-    async function connet() {
-      const provider = new WsProvider(wss);
-      const api = await ApiPromise.create({
-        provider: provider,
-        types: definitions.types
-      });
-			console.log("websocket is connected...")
-      setApi(api);
-			const currentEra = await api.query.staking.currentEra();
-			setEra(parseInt(currentEra.toString()) - 2);
-			setLoading(false)
-    }
-    connet();
-  }, [])
+	useEffect(async() => {
+		const currentEra = await api.query.staking.currentEra();
+		setEra(parseInt(currentEra.toString()) - 2);
+		setLoading(false)
+	}, [])
 
 	const load = async () => {
 		if(loading) return;
 		setLoading(true);
 		console.log('loading...');
-		let d = {};
 
 		const points = await api.query.staking.erasRewardPoints(era);
 		const individual = JSON.parse(points.individual);
@@ -122,7 +109,7 @@ function TopValidator() {
 				<div>
 					<table>
 						{table1.map((element, index) => 
-							<tr>
+							<tr key={index}>
 								<td>{element[0]}</td>
 								<td>{element[1]}</td>
 								<td>{element[2]}</td>
@@ -134,7 +121,7 @@ function TopValidator() {
 				<div>
 					<table>
 						{table2.map((element, index) => 
-							<tr>
+							<tr key={index}>
 								<td>{element[0]}</td>
 								<td>{element[1]}</td>
 								<td>{element[2]}</td>

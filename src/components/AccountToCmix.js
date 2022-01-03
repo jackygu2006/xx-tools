@@ -1,29 +1,13 @@
 import { useState, useEffect } from 'react';
-import { ApiPromise, WsProvider } from '@polkadot/api';
-import { definitions }  from '../types/xxnetwork';
 import { Buffer } from 'buffer';
-import { wss } from '../config';
 import '../css/style.css';
 
-function AccountToCmix() {
-	const [loading, setLoading] = useState(true);
-	const [api, setApi] = useState(null);
-	const [validator, setValidator] = useState("5HEtg4HZ3jxoeTFbaxt7WqrLCuHr7SV1eHMYHHPaSNaTaJE2");
+function AccountToCmix(props) {
+	const api = props.api;
+	const [loading, setLoading] = useState(false);
+	const [validator, setValidator] = useState(process.env.REACT_APP_DEFAULT_ACCOUNT);
 	const [cmixRoot, setCmixRoot] = useState("");
 	const [cmixId, setCmixId] = useState("");
-
-	useEffect(() => {
-    async function connet() {
-      const provider = new WsProvider(wss);
-      const api = await ApiPromise.create({
-        provider: provider,
-        types: definitions.types
-      });
-			setApi(api);
-			setLoading(false)
-    }
-    connet();
-  }, [])
 
 	const toByteArray = (nodeRoot, extraByte) => Buffer.concat([nodeRoot.toU8a(true), extraByte])
 	const toBase64 = (cmixRoot) => cmixRoot.toString('base64');

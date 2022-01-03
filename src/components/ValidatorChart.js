@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import '../css/style.css';
 import ReactECharts from 'echarts-for-react';
-import { apiUrl, maxPoints, defaultMinEra, defaultMaxEra, refreshSeconds } from '../config';
+import { maxPoints, defaultMinEra, defaultMaxEra, refreshSeconds } from '../config';
 import useCountDown from 'react-countdown-hook';
 
 const axios = require('axios').default;
@@ -42,7 +42,7 @@ function ValidatorChart() {
 				type: 'line'
 			}]
 	};
-	const [validator, setValidator] = useState('5DSK87eLHYWKKb7ZP4iDYvdBSTXsDbzAqmMxJn1ndvEy4Lr8');
+	const [validator, setValidator] = useState(process.env.REACT_APP_DEFAULT_ACCOUNT);
 	const [eraStart, setEraStart] = useState(defaultMinEra);
 	const [eraEnd, setEraEnd] = useState(defaultMaxEra);
 	const [chartOption, setChartOption] = useState({});
@@ -57,7 +57,7 @@ function ValidatorChart() {
 
 	const load = async () => {
 		setChartOption({})
-		const url = apiUrl + '/scan/points';
+		const url = process.env.REACT_APP_API_URL + '/scan/points';
 		const res = await axios({
 			method: 'post',
 			url, 
