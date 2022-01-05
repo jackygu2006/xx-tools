@@ -5,12 +5,12 @@ import '../css/style.css';
 function TopValidator(props) {
 	const api = props.api;
 	const [loading, setLoading] = useState(true);
-	const [validator, setValidator] = useState(process.env.REACT_APP_DEFAULT_ACCOUNT);
-	const [stakeAmount, setStakeAmount] = useState(10000);
+	const [validator, setValidator] = useState(window.localStorage.getItem('validator') === undefined ? '' : window.localStorage.getItem('validator'));
+	// const [stakeAmount, setStakeAmount] = useState(10000);
 	const [era, setEra] = useState(0);
 	// const [api, setApi] = useState(null);
 	const [table1, setTable1] = useState([]);
-	const [table2, setTable2] = useState([]);
+	// const [table2, setTable2] = useState([]);
 
 	useEffect(async() => {
 		const currentEra = await api.query.staking.currentEra();
@@ -53,42 +53,42 @@ function TopValidator(props) {
 		/**
 		 * index = (1 - commission) * newStakeAmount / (totalStakeAmount + newStakeAmount) * validatorPoint / points.total
 		 */
-		let array = [];
-		for(let i = 0; i < 100; i++) {
-			const _validatorAccount = individualArray[i].validator; 
-			const _validators = await api.query.staking.validators(_validatorAccount);
-			const _commission = _validators.commission / 1e9;
-			const _erasStakers = await api.query.staking.erasStakers(era, _validatorAccount);
-			const _totalStakeAmount = _erasStakers.total;
-			const _validatorPoint = individual[_validatorAccount];
+		// let array = [];
+		// for(let i = 0; i < 100; i++) {
+		// 	const _validatorAccount = individualArray[i].validator; 
+		// 	const _validators = await api.query.staking.validators(_validatorAccount);
+		// 	const _commission = _validators.commission / 1e9;
+		// 	const _erasStakers = await api.query.staking.erasStakers(era, _validatorAccount);
+		// 	const _totalStakeAmount = _erasStakers.total;
+		// 	const _validatorPoint = individual[_validatorAccount];
 
-			const index = (1 - _commission) * stakeAmount * 1e9 / (_totalStakeAmount + stakeAmount * 1e9) * _validatorPoint / points.total * 1e20;
-			if(_validatorAccount.substr(0, 4) === "5GgJ") {
-				console.log(_validatorAccount);
-				console.log(`commission: ${_commission}, newStakeAmount: ${stakeAmount}, totalStakedAmount: ${_totalStakeAmount}, validatorPoint: ${_validatorPoint}, totalPoints: ${points.total}`);
-			}
-			// commission: 0.07, newStakeAmount: 10000, totalStakedAmount: 69497781687952, validatorPoint: 15248, totalPoints: 2560704
-			const o = {
-				validator: _validatorAccount,
-				index,
-				points: individualArray[i].points,
-			}
-			array.push(o);
-		}
+		// 	const index = (1 - _commission) * stakeAmount * 1e9 / (_totalStakeAmount + stakeAmount * 1e9) * _validatorPoint / points.total * 1e20;
+		// 	if(_validatorAccount.substr(0, 4) === "5GgJ") {
+		// 		console.log(_validatorAccount);
+		// 		console.log(`commission: ${_commission}, newStakeAmount: ${stakeAmount}, totalStakedAmount: ${_totalStakeAmount}, validatorPoint: ${_validatorPoint}, totalPoints: ${points.total}`);
+		// 	}
+		// 	// commission: 0.07, newStakeAmount: 10000, totalStakedAmount: 69497781687952, validatorPoint: 15248, totalPoints: 2560704
+		// 	const o = {
+		// 		validator: _validatorAccount,
+		// 		index,
+		// 		points: individualArray[i].points,
+		// 	}
+		// 	array.push(o);
+		// }
 
-		console.log('================');
-		console.log('Top 100 high yield validators if stake ' + stakeAmount);
-		array.sort(function(a, b) {return a.index < b.index ? 1 : -1});
-		let tableArray2  = [["No", "Validator Account", "Points"]];
-		for(let i = 0; i < 100; i++) {
-			// console.log(i + 1, array[i].validator, array[i].index);
-			tableArray2.push([
-				i+1, 
-				array[i].validator,
-				array[i].index.toFixed(0)
-			])
-		}
-		setTable2(tableArray2);
+		// console.log('================');
+		// console.log('Top 100 high yield validators if stake ' + stakeAmount);
+		// array.sort(function(a, b) {return a.index < b.index ? 1 : -1});
+		// let tableArray2  = [["No", "Validator Account", "Points"]];
+		// for(let i = 0; i < 100; i++) {
+		// 	console.log(i + 1, array[i].validator, array[i].index);
+		// 	tableArray2.push([
+		// 		i+1, 
+		// 		array[i].validator,
+		// 		array[i].index.toFixed(0)
+		// 	])
+		// }
+		// setTable2(tableArray2);
 
 		console.log('\nDone...');
 		setLoading(false);
@@ -99,8 +99,8 @@ function TopValidator(props) {
 			<div className="container">
 				<div className="description">Validator Account</div>
 				<input type="text" className="account-number gap" placeholder="Validator" value={validator} onChange={(e) => {setValidator(e.target.value)} } onFocus={(e) => e.target.select()}/>
-				<div className="description">Will stake Amount</div>
-				<input type="text" className="account-number gap" placeholder="Stake amount" value={stakeAmount} onChange={(e) => {setStakeAmount(e.target.value)} } onFocus={(e) => e.target.select()}/>
+				{/* <div className="description">Will stake Amount</div>
+				<input type="text" className="account-number gap" placeholder="Stake amount" value={stakeAmount} onChange={(e) => {setStakeAmount(e.target.value)} } onFocus={(e) => e.target.select()}/> */}
 				<div className="description">Era</div>
 				<input type="text" className="account-number gap" placeholder="Era" value={era} onChange={(e) => {setEra(e.target.value)} } onFocus={(e) => e.target.select()}/>
         <div className="button" onClick={() => load()}>{loading ? "Loading..." : "Fetch Data"}</div>
@@ -108,6 +108,7 @@ function TopValidator(props) {
 				<div className="description">Points of each validator</div>
 				<div>
 					<table>
+						<tbody>
 						{table1.map((element, index) => 
 							<tr key={index}>
 								<td>{element[0]}</td>
@@ -115,9 +116,10 @@ function TopValidator(props) {
 								<td>{element[2]}</td>
 							</tr>
 						)}
+						</tbody>
 					</table>
 				</div>
-				<div className="description">Top 100 ARP of each validator</div>
+				{/* <div className="description">Top 100 ARP of each validator</div>
 				<div>
 					<table>
 						{table2.map((element, index) => 
@@ -128,7 +130,7 @@ function TopValidator(props) {
 							</tr>
 						)}
 					</table>
-				</div>
+				</div> */}
 				<div className="gap"></div>
 			</div>
 			<div className="footer">

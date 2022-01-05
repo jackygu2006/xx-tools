@@ -1,11 +1,10 @@
-import react, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import './App.css';
 import {HashRouter, Routes, Route} from 'react-router-dom';
+import Menu from './components/Menu';
 import BatchAccountGenerator from './components/BatchAccountGenerator';
 import BestValidator from './components/BestValidator';
 import TopValidator from './components/TopValidator';
-// import ValidatorChart from './components/ValidatorChart';
-import Menu from './components/Menu';
 import ChartCards from './components/ChartCards';
 import AccountToCmix from './components/AccountToCmix';
 import { ApiPromise, WsProvider } from '@polkadot/api';
@@ -13,14 +12,15 @@ import { ApiPromise, WsProvider } from '@polkadot/api';
 function App() {
   const [api, setApi] = useState(null);
 
-	useEffect(() => {
-    async function connet() {
-      const provider = new WsProvider(process.env.REACT_APP_WSS);
-      const api = await ApiPromise.create({
-        provider
-      });
-			setApi(api);
-    }
+  async function connet() {
+    const provider = new WsProvider(process.env.REACT_APP_WSS);
+    const api = await ApiPromise.create({
+      provider
+    });
+    setApi(api);
+  }
+
+  useEffect(() => {
     connet();
   }, [])
 

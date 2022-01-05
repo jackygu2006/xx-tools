@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { fetchSleeveGenerator } from '../sleeve';
 import Keyring from '@polkadot/keyring';
-import Select from 'react-select';
 import '../css/style.css';
 
-const options = [
-  { value: 55, label: 'xx mainnet(55)' },
-  { value: 42, label: 'xx protonet(42)' },
-];
+// const options = [
+//   { value: 55, label: 'xx mainnet(55)' },
+//   { value: 42, label: 'xx protonet(42)' },
+// ];
 
 function BatchAccountGenerator() {
   const [number, setNumber] = useState(2);
@@ -15,7 +14,7 @@ function BatchAccountGenerator() {
   const [resultOnly, setResultOnly] = useState('');
   const [loading, setLoading] = useState(false);
   const [wasmLoaded, setWasmLoaded] = useState(false);
-  const [ss58Type, setSs58Type] = useState(55);
+  const ss58Type = 55;
 
   useEffect(() => {
     try {
@@ -73,16 +72,16 @@ function BatchAccountGenerator() {
     }
   }
 
-  const handleChange = (selectedOption) => {
-    console.log(selectedOption.value);
-    setSs58Type(selectedOption.value)
-    setSs58Type(selectedOption.value);
-  };
+  // const handleChange = (selectedOption) => {
+  //   console.log(selectedOption.value);
+  //   setSs58Type(selectedOption.value)
+  //   setSs58Type(selectedOption.value);
+  // };
 
-  const splitMnemonics = () => {
-    // TODO:
-    alert('Make sure again this website is offline! It will show you 3 texts with mask, copy, print or save it. Each Mnemonic is splited into 3 parts and keep separately.')
-  }
+  // const splitMnemonics = () => {
+  //   // TODO:
+  //   alert('Make sure again this website is offline! It will show you 3 texts with mask, copy, print or save it. Each Mnemonic is splited into 3 parts and keep separately.')
+  // }
 
   return wasmLoaded ? (
     <div>
@@ -93,14 +92,14 @@ function BatchAccountGenerator() {
           <div>BE SURE NOBODY IS WATCHING NOW!</div>
         </div>
         <div className="container">
-        <Select className="select"
+        {/* <Select className="select"
           defaultValue={ss58Type}
           onChange={(e) => handleChange(e)}
           options={options}
-        />        
+        /> */}
         <input type="text" className="account-number" placeholder="How many accounts you want create" value={number} onChange={(e) => {setNumber(e.target.value)} } onFocus={(e) => e.target.select()}/>
         <div className="button" onClick={() => generateSleeves()}>{loading ? "Loading..." : "Create Accounts & Show"}</div>
-        <div className="button" onClick={() => splitMnemonics()}>{loading ? "Loading..." : "Create Accounts & Split mnemonics"}</div>        
+        {/* <div className="button" onClick={() => splitMnemonics()}>{loading ? "Loading..." : "Create Accounts & Split mnemonics"}</div>         */}
         <div className="description">Address only</div>
         <textarea className="result" value={resultOnly} readOnly></textarea>
         <div className="description">Address, normal mnemonic, quantum secured mnemonic and XxAddress</div>

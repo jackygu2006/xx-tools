@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import '../css/style.css';
 import ReactECharts from 'echarts-for-react';
 import { maxPoints, defaultMinEra, defaultMaxEra, refreshSeconds } from '../config';
@@ -42,17 +42,18 @@ function ValidatorChart() {
 				type: 'line'
 			}]
 	};
-	const [validator, setValidator] = useState(process.env.REACT_APP_DEFAULT_ACCOUNT);
+	const [validator, setValidator] = useState(window.localStorage.getItem('validator') === undefined ? '' : window.localStorage.getItem('validator'));
 	const [eraStart, setEraStart] = useState(defaultMinEra);
 	const [eraEnd, setEraEnd] = useState(defaultMaxEra);
 	const [chartOption, setChartOption] = useState({});
-	const [timeLeft, { start, pause, resume, reset }] = useCountDown(refreshSeconds, 1000);
+	const [timeLeft, { start }] = useCountDown(refreshSeconds, 1000);
 
 	useEffect(() => {
 		setInterval(async () => {
 			await load()
 		}, refreshSeconds);
 		load();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	},[])
 
 	const load = async () => {
